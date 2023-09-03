@@ -66,9 +66,20 @@ func (r *ConfidentialReconciler) Reconcile(ctx context.Context, req ctrl.Request
 		if crd.Spec.Template.Spec.Containers[0].Env[e].Name == "KATA" {
 			//crd.Spec.Template.Spec.Containers[0].Env[e].Value = "test"
 			log.Log.Info("Found KATA variable")
+			if crd.Spec.Template.Spec.RuntimeClassName == nil {
+				log.Log.Info("No RuntimeClassName")
+				// Set RunTimeClassName to "kata-qemu"
+				setRT := "kata-qemu"
+				crd.Spec.Template.Spec.RuntimeClassName = &setRT
+				log.Log.Info("Applied Class")
+			} else {
+				log.Log.Info("Found RuntimeClassName")
+			}
 		}
 	}
-	//re := r.Client.Update(ctx, &crd)
+	re := r.Client.Update(ctx, &crd)
+	if re != nil {
+	}
 
 	return ctrl.Result{}, nil
 }
