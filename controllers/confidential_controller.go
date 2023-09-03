@@ -25,6 +25,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/log"
 
 	appsv1 "k8s.io/api/apps/v1"
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 )
 
 // ConfidentialReconciler reconciles a Confidential object
@@ -51,6 +52,23 @@ func (r *ConfidentialReconciler) Reconcile(ctx context.Context, req ctrl.Request
 
 	// TODO(user): your logic here
 	log.Log.Info(req.Name)
+	var crd appsv1.Deployment
+	err := r.Client.Get(ctx, req.NamespacedName, &crd)
+	if err != nil {
+		if apierrors.IsNotFound(err) {
+			// TODO: Kill/Ground our channel here
+			return ctrl.Result{}, nil
+		}
+		return ctrl.Result{}, err
+	}
+	//Container := crd.Spec.Template.Spec.Containers[0].Env[]
+	for e := range crd.Spec.Template.Spec.Containers[0].Env {
+		if crd.Spec.Template.Spec.Containers[0].Env[e].Name == "KATA" {
+			//crd.Spec.Template.Spec.Containers[0].Env[e].Value = "test"
+			log.Log.Info("Found KATA variable")
+		}
+	}
+	//re := r.Client.Update(ctx, &crd)
 
 	return ctrl.Result{}, nil
 }
