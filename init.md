@@ -3,6 +3,11 @@ Date: 30th Aug 2023
 OS: Mac Ventura 13.4
 operator-sdk version: "v1.29.0", commit: "78c564319585c0c348d1d7d9bbfeed1098fab006", kubernetes version: "v1.26.0", go version: "go1.20.4", GOOS: "darwin", GOARCH: "arm64"
 
+References: 
+- https://sdk.operatorframework.io/docs/building-operators/golang/tutorial/
+
+# Notes
+
 We scaffold the operator using the following command:
 
 ```
@@ -16,6 +21,20 @@ Then create our shim API and then modify our SetupWithManager to watch the resou
 operator-sdk create api --group=preview --version=v1 --kind=Confidential --controller=true --resource=true
 ```
 
+edit Controllers > confidential_controller.go
+add imports 
+	appsv1 "k8s.io/api/apps/v1"
+	corev1 "k8s.io/api/core/v1"
+edit SetupWithManager from 
+    For(&previewv1.Confidential{}).
+to this 
+    For(&appsv1.Deployment{}).
+edit reconcile to have
+    	log.Log.Info(req.Name)
+
+```
+make install run 
+```
 <!-- operator-sdk create api --group=apps --version=v1 --kind=Deployment --controller=true --resource=false -->
 
 <!-- operator-sdk create api \

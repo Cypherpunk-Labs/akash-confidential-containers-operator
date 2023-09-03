@@ -1,0 +1,12 @@
+apiVersion: preview.cypherpunk.io/v1
+kind: Confidential
+metadata:
+  labels:
+    app.kubernetes.io/name: confidential
+    app.kubernetes.io/instance: confidential-sample
+    app.kubernetes.io/part-of: akash-confidential-containers-operator
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/created-by: akash-confidential-containers-operator
+  name: confidential-sample
+spec:
+  # TODO(user): Add fields here
