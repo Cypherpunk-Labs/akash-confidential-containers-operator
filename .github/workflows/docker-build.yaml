@@ -45,6 +45,6 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: make docker-build
-        run: make docker-build docker-push IMG="${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.version }}"
+      # - name: make docker-build ## env.IMAGE_NAME contains uppercase which breaks docker hub.
+      #   run: make docker-build docker-push IMG="${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.version }}"
         
