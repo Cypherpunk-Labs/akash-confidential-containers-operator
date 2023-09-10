@@ -45,11 +45,11 @@ This will run the operator in developer mode from your IDE, external to your clu
 ## OLM Bundle install
 
 - operator-sdk olm install
-- make deploy IMG="ghcr.io/Cypherpunk-Labs/akash-confidential-containers-operator:v0.0.1"
+- make deploy IMG="ghcr.io/cypherpunk-labs/akash-confidential-containers-operator:v0.0.1"
 
 The following image has been made public so no login is required.
 
-- ghcr.io/Cypherpunk-Labs/akash-confidential-containers-operator:v0.0.1
+- ghcr.io/cypherpunk-labs/akash-confidential-containers-operator:v0.0.1
 
 ## OLM Bundle uninstall
 
