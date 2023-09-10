@@ -1,0 +1,26 @@
+on:
+  workflow_dispatch:
+    # Enable manual trigger for this action.
+    inputs:
+      version:
+        description: Bundle version.
+        required: true
+
+jobs:
+  generate-bundle:
+    runs-on: ubuntu-latest
+    name: Generate operator bundle
+    steps:
+      - uses: actions/checkout@v2
+      - name: olm-bundle action
+        id: bundle
+        uses: darkowlzz/olm-bundle@master
+        with:
+          manifestsDir: bundle/manifests
+          outputDir: my-operator/${{ github.event.inputs.version }}
+          channels: stable,beta
+          package: my-operator
+      - name: bundle tree output
+        run: echo "${{ steps.bundle.outputs.tree }}"
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3.4.0

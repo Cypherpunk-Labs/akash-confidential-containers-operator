@@ -35,6 +35,16 @@ edit reconcile to have
 ```
 make install run 
 ```
+
+
+
+
+
+
+--- 
+
+# scratchpad
+
 <!-- operator-sdk create api --group=apps --version=v1 --kind=Deployment --controller=true --resource=false -->
 
 <!-- operator-sdk create api \
@@ -45,10 +55,10 @@ make install run
 
     --resource \ -->
 
-// Create mutating webhook for deployments via operator-sdk 
+<!-- // Create mutating webhook for deployments via operator-sdk 
 operator-sdk create webhook --group apps --version v1 --kind Deployment --defaulting --programmatic-validation
 
 // Create validating webhook for deployments via operator-sdk 
-operator-sdk create webhook --group apps --version v1 --kind Deployment --validation --programmatic-validation
+operator-sdk create webhook --group apps --version v1 --kind Deployment --validation --programmatic-validation -->
 
 

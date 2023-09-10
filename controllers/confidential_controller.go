@@ -38,37 +38,33 @@ type ConfidentialReconciler struct {
 //+kubebuilder:rbac:groups=preview.cypherpunk.io,resources=confidentials/status,verbs=get;update;patch
 //+kubebuilder:rbac:groups=preview.cypherpunk.io,resources=confidentials/finalizers,verbs=update
 
+// +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=apps,resources=deployments/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=apps,resources=deployments/finalizers,verbs=update
+
 // Reconcile is part of the main kubernetes reconciliation loop which aims to
 // move the current state of the cluster closer to the desired state.
-// TODO(user): Modify the Reconcile function to compare the state specified by
-// the Confidential object against the actual cluster state, and then
-// perform operations to make the cluster state reflect the state specified by
-// the user.
 //
 // For more details, check Reconcile and its Result here:
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.14.1/pkg/reconcile
 func (r *ConfidentialReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	_ = log.FromContext(ctx)
 
-	// TODO(user): your logic here
 	log.Log.Info(req.Name)
 	var crd appsv1.Deployment
 	err := r.Client.Get(ctx, req.NamespacedName, &crd)
 	if err != nil {
 		if apierrors.IsNotFound(err) {
-			// TODO: Kill/Ground our channel here
 			return ctrl.Result{}, nil
 		}
 		return ctrl.Result{}, err
 	}
-	//Container := crd.Spec.Template.Spec.Containers[0].Env[]
+
 	for e := range crd.Spec.Template.Spec.Containers[0].Env {
 		if crd.Spec.Template.Spec.Containers[0].Env[e].Name == "KATA" {
-			//crd.Spec.Template.Spec.Containers[0].Env[e].Value = "test"
 			log.Log.Info("Found KATA variable")
 			if crd.Spec.Template.Spec.RuntimeClassName == nil {
 				log.Log.Info("No RuntimeClassName")
-				// Set RunTimeClassName to "kata-qemu"
 				setRT := "kata-qemu"
 				crd.Spec.Template.Spec.RuntimeClassName = &setRT
 				log.Log.Info("Applied Class")
@@ -77,8 +73,11 @@ func (r *ConfidentialReconciler) Reconcile(ctx context.Context, req ctrl.Request
 			}
 		}
 	}
+
 	re := r.Client.Update(ctx, &crd)
 	if re != nil {
+		log.Log.Info("Error updating CRD")
+		return ctrl.Result{}, re
 	}
 
 	return ctrl.Result{}, nil
