@@ -1,0 +1,1 @@
+sudo kata-containers.runtime check
