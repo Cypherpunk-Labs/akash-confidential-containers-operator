@@ -1,0 +1,43 @@
+# Copyright Confidential Containers Contributors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# Install kubeadm and everything else needed to bring up a single node
+# k8s cluster.
+#
+---
+- hosts: all:localhost
+  become: yes
+  tasks:
+    - name: Add br_netfilter module
+      community.general.modprobe:
+        name: br_netfilter
+        state: present
+    - name: Config sysctl bridge-nf-call-ip6tables
+      ansible.posix.sysctl:
+        name: net.bridge.bridge-nf-call-ip6tables
+        value: '1'
+        sysctl_set: true
+        state: present
+        reload: false
+    - name: Config sysctl bridge-nf-call-iptables
+      ansible.posix.sysctl:
+        name: net.bridge.bridge-nf-call-iptables
+        value: '1'
+        sysctl_set: true
+        state: present
+        reload: false
+    - name: Config sysctl bridge-nf-call-arptables
+      ansible.posix.sysctl:
+        name: net.bridge.bridge-nf-call-arptables
+        value: '1'
+        sysctl_set: true
+        state: present
+        reload: false
+    - name: Config sysctl ipv4.ip_forward
+      ansible.posix.sysctl:
+        name: net.ipv4.ip_forward
+        value: '1'
+        sysctl_set: true
+        state: present
+        reload: true
