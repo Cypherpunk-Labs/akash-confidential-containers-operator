@@ -1,5 +1,6 @@
 apt update
 apt -y install ansible
+ansible-galaxy collection install ansible.posix
 ansible-playbook -i 127.0.0.1 --connection=local install_containerd.yml
 ansible-playbook -i 127.0.0.1 --connection=local install_kubeadm.yml
 ansible-playbook -i 127.0.0.1 --connection=local install_bridge.yml
