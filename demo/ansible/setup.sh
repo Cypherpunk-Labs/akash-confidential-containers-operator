@@ -13,3 +13,4 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 kubectl taint nodes --all node-role.kubernetes.io/master-
 kubectl taint nodes --all node-role.kubernetes.io/control-plane-
+kubectl label $(kubectl get nodes -o name) node-role.kubernetes.io/worker=

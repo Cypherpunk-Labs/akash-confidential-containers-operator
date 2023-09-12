@@ -1,3 +1,4 @@
+cd ~
 git clone https://github.com/kata-containers/kata-containers.git
 cd kata-containers/tools/packaging/kata-deploy
 kubectl apply -f kata-rbac/base/kata-rbac.yaml
