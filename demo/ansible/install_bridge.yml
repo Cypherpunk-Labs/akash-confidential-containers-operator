@@ -10,7 +10,7 @@
   become: yes
   tasks:
     - name: Add br_netfilter module
-      community.general.modprobe:
+      modprobe:
         name: br_netfilter
         state: present
     - name: Config sysctl bridge-nf-call-ip6tables
