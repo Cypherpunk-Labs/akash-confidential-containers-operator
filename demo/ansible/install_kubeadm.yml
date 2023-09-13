@@ -103,5 +103,8 @@
       template:
         src: kube-flannel.yml.j2
         dest: "{{ flannel_home }}/kube-flannel.yml"
-      
+    - name: Install kata-containers
+      community.general.snap:
+        name: kata-containers
+        classic: yes
       
