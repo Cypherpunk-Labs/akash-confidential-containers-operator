@@ -43,7 +43,7 @@ Events:
 
 
 ---
-
+as per REF: https://github.com/kata-containers/kata-containers/blob/main/docs/install/gce-installation-guide.md
 
 SOURCE_IMAGE_PROJECT=ubuntu-os-cloud
 SOURCE_IMAGE_FAMILY=ubuntu-2204-lts
@@ -57,10 +57,23 @@ gcloud compute images create \
     $IMAGE_NAME
 
 
-
   gcloud compute instances create \
-    --image $IMAGE_NAME \
-    --machine-type n1-standard-2 \
+    --machine-type n1-standard-4 \
     --min-cpu-platform "Intel Broadwell" \
+    --create-disk=auto-delete=yes,boot=yes,device-name=dsk-kata-testing,image=projects/artful-patrol-390412/global/images/ubuntu-2204-lts-nested,mode=rw,size=100,type=projects/artful-patrol-390412/zones/europe-west2-c/diskTypes/pd-balanced \
     --zone=europe-west2-c \
     kata-testing
+
+Still getting '0/1 nodes are available: 1 Insufficient cpu. preemption: 0/1 nodes are available: 1 No preemption victims found for incoming pod.'
+Bumped up from n1-standard-2 to n1-standard-4 and Pod would schedule this time. 
+ 
+---
+
+coreDNS pod resolution problems. seems to work ok from host and debug logs shows request getting to dns.
+So only pods trying to use 
+  kubectl exec -ti busybox -- nslookup google.com 10.96.0.10
+time out. if we use the pod ip instead of clusterIP it works, and the pod can resolve external dns.
+Only when I run 
+  sudo modprobe br_netfilter
+  sudo sysctl -p
+will it begin to resolv properly.
