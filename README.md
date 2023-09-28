@@ -26,10 +26,10 @@ This project is a work in progress.
 
 - [Ubuntu] sudo snap install kata-containers --classic
 - https://github.com/kata-containers/kata-containers/blob/3.1.3/tools/packaging/kata-deploy/README.md
-    - $ git clone github.com/kata-containers/kata-containers
+    - $ git clone https://github.com/kata-containers/kata-containers.git
     - $ cd kata-containers/kata-containers/tools/packaging/kata-deploy
     - $ kubectl apply -f kata-rbac/base/kata-rbac.yaml
-    - $ kubectl apply -k kata-deploy/overlays/k3s
+    - $ kubectl apply -k kata-deploy/{overlays/k3s | base/kata-deploy.yaml}
 - kubectl apply -f https://raw.githubusercontent.com/kata-containers/kata-containers/main/tools/packaging/kata-deploy/runtimeclasses/kata-runtimeClasses.yaml
 - systemctl restart k3s.service
 
@@ -37,7 +37,7 @@ This project is a work in progress.
 
 This will run the operator in developer mode from your IDE, external to your cluster.
 
-- git clone git@github.com:Cypherpunk-Labs/akash-confidential-containers-operator.git
+- git clone https://github.com/Cypherpunk-Labs/akash-confidential-containers-operator.git
 - cd akash-confidential-containers-operator
 - make install run
 
